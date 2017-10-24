@@ -24,13 +24,16 @@ module EventEmitter
     def self.publisher
       EventEmitter::Kinesis::Publisher.new(payload: @payload, options: @options, client: client, stream: stream)
     end
+    private_class_method :publisher
 
     def self.stream
       EventEmitter::Kinesis::Stream.new(client: client, options: @options)
     end
+    private_class_method :stream
 
     def self.client
       Aws::Kinesis::Client.new
     end
+    private_class_method :client
   end
 end

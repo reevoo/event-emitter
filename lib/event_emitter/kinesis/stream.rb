@@ -7,6 +7,7 @@ module EventEmitter
       def initialize(client:, options:)
         @client = client
         @options = options
+        @options[:wait_for_stream_creation] = true if @options[:wait_for_stream_creation].nil?
 
         create_stream_if_not_exists
       end
@@ -15,11 +16,7 @@ module EventEmitter
         options[:stream_name]
       end
 
-      def shard_count
-        options[:stream_shard_count]
-      end
-
-      def delete_stream
+      def delete
         begin
           client.delete_stream(stream_name: name)
         rescue => e
@@ -29,6 +26,10 @@ module EventEmitter
 
       private
 
+      def shard_count
+        options[:stream_shard_count]
+      end
+
       def create_stream_if_not_exists
         begin
           desc = get_stream_description
@@ -36,7 +37,7 @@ module EventEmitter
           if desc[:stream_status] == 'DELETING'
             fail "Stream #{name} is being deleted. Please re-run the script."
           elsif desc[:stream_status] != 'ACTIVE'
-            wait_for_stream_to_become_active(name)
+            wait_for_stream_to_become_active
           end
 
           if shard_count && desc[:shards].size != shard_count
@@ -47,7 +48,7 @@ module EventEmitter
         rescue Aws::Kinesis::Errors::ResourceNotFoundException
           puts "Creating stream #{name} with #{shard_count || 1} shards"
           @client.create_stream(:stream_name => name, :shard_count => shard_count || 1)
-          wait_for_stream_to_become_active
+          wait_for_stream_to_become_active if options[:wait_for_stream_creation]
         end
       end
 
