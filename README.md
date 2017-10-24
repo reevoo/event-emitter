@@ -1,2 +1,2 @@
-# event_emitter
+# EventEmitter
 Contains logic for event emitting
