@@ -1,5 +1,5 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
-gem 'rspec'
-gem 'aws-kclrb'
-gem 'aws-sdk'
+gem "aws-kclrb"
+gem "aws-sdk"
+gem "rspec"
