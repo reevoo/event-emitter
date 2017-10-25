@@ -1,5 +1,4 @@
 # EventEmitter
-Contains logic for event emitting
 
 # Usage
 
@@ -29,7 +28,14 @@ you can specify number of shards for the new stream via `stream_shard_count`.
 Otherwise each time you push a message there will be an attempt to create a stream which will result in worse performance.*
 
 ```ruby
-EventEmitter::Kinesis.publish(message, create_stream: true, stream_name: 'my_new_stream', stream_shard_count: 8)
+EventEmitter.new(:kinesis).publish(
+  payload: message, 
+  options: { 
+    create_stream: true, 
+    stream_shard_count: 8,
+    stream_name: 'my_new_stream',
+  }
+)
 ```
 
 #### Creating a stream through console
@@ -38,36 +44,50 @@ You can do it as below:
 
 ```ruby
 aws_client = Aws::Kinesis::Client.new
-EventEmitter::Kinesis::Stream.new(
+
+Kinesis::Stream.new(
   client: aws_client, 
-  options: { create_stream: true, stream_name: 'my_new_test_stream_name', stream_shard_count: 1 }
+  options: { 
+    create_stream: true, 
+    stream_shard_count: 1,
+    stream_name: 'my_new_test_stream_name', 
+  }
 )
+```
+
+#### Deleting a stream
+
+```ruby
+aws_client = Aws::Kinesis::Client.new
+
+Kinesis::Stream.new(client: aws_client, stream_name: 'to_be_deleted').delete
 ```
 
 
 #### Publishing messages to existing stream 
-
-AWS expects message to be a String or IO object. It means you can't pass Hash, you need to make it a String
-for example by calling `to_json` on a message.
 
 To publish **one** message:
 
 ```ruby
 message = "Spicy chicken wings"
 
-EventEmitter::Kinesis.publish(message, stream_name: 'kfc_stream')
-```
-
-```ruby
-message = { uuid: "a0123-99zz", price: 2.99 }.to_json
-
-EventEmitter::Kinesis.publish(message, stream_name: 'products')
+EventEmitter.new(:kinesis).publish(
+  payload: message, 
+  options: { 
+    stream_name: 'kfc_stream',
+  }
+)
 ```
 
 To publish **many** messages:
 
 ```ruby
-EventEmitter::Kinesis.publish([message1, message2, message3], stream_name: 'fat_stream')
+EventEmitter.new(:kinesis).publish(
+  payload: [message1, message2, message3], 
+  options: {
+    stream_name: 'fat_stream',
+  }
+)
 ```
 
 ### All available options

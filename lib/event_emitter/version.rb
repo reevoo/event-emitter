@@ -1,3 +1,3 @@
-module EventEmitter
+class EventEmitter
   VERSION = "0.1.0".freeze
 end

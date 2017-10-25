@@ -1,4 +1,4 @@
-RSpec.describe EventEmitter::Kinesis do
+RSpec.describe KinesisEmitter do
   describe "#publish" do
     let(:publisher) { double(:publisher, put_records: true, put_record: true) }
     let(:stream) { double }
@@ -6,12 +6,12 @@ RSpec.describe EventEmitter::Kinesis do
     let(:options) { {} }
 
     subject do
-      described_class.publish(payload, options)
+      described_class.publish(payload: payload, options: options)
     end
 
     before do
-      allow(EventEmitter::Kinesis::Publisher).to receive(:new).and_return(publisher)
-      allow(EventEmitter::Kinesis::Stream).to receive(:new).and_return(stream)
+      allow(Kinesis::Publisher).to receive(:new).and_return(publisher)
+      allow(Kinesis::Stream).to receive(:new).and_return(stream)
     end
 
     it "accepts 2 arguments - payload and options" do
