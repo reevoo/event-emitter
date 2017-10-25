@@ -1,10 +1,8 @@
 # EventEmitter
 
-# Usage
+## Amazon Kinesis backend
 
-## Amazon Kinesis
-
-Set ENV variables:
+To make use of Kinesis streams set ENV variables:
 
 - ENV['AWS_ACCESS_KEY_ID']
 
@@ -29,24 +27,22 @@ Otherwise each time you push a message there will be an attempt to create a stre
 
 ```ruby
 EventEmitter.new(:kinesis).publish(
-  payload: message, 
+  payload: "I like sweet chilly chicken", 
   options: { 
     create_stream: true, 
     stream_shard_count: 8,
-    stream_name: 'my_new_stream',
+    stream_name: 'new_stream_for_my_chickens',
   }
 )
 ```
 
-#### Creating a stream through console
+#### Creating a stream another way
 
 You can do it as below:
 
 ```ruby
-aws_client = Aws::Kinesis::Client.new
-
 Kinesis::Stream.new(
-  client: aws_client, 
+  client: Aws::Kinesis::Client.new, 
   options: { 
     create_stream: true, 
     stream_shard_count: 1,
@@ -58,9 +54,7 @@ Kinesis::Stream.new(
 #### Deleting a stream
 
 ```ruby
-aws_client = Aws::Kinesis::Client.new
-
-Kinesis::Stream.new(client: aws_client, stream_name: 'to_be_deleted').delete
+Kinesis::Stream.new(client: Aws::Kinesis::Client.new, stream_name: 'to_be_deleted').delete
 ```
 
 
@@ -69,10 +63,8 @@ Kinesis::Stream.new(client: aws_client, stream_name: 'to_be_deleted').delete
 To publish **one** message:
 
 ```ruby
-message = "Spicy chicken wings"
-
 EventEmitter.new(:kinesis).publish(
-  payload: message, 
+  payload: "Spicy chicken wings", 
   options: { 
     stream_name: 'kfc_stream',
   }
@@ -83,14 +75,14 @@ To publish **many** messages:
 
 ```ruby
 EventEmitter.new(:kinesis).publish(
-  payload: [message1, message2, message3], 
+  payload: ["Bulbasaur", "Pikachu", "Charmander"], 
   options: {
-    stream_name: 'fat_stream',
+    stream_name: 'pokemons_stream',
   }
 )
 ```
 
-### All available options
+### All available options for Kinesis
 
 These options may/must be passed in options hash:
 
