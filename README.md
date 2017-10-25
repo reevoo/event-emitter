@@ -28,7 +28,7 @@ you can specify number of shards for the new stream via `stream_shard_count`.
 *Make sure you create stream once and remove `create_stream` after successful creation. 
 Otherwise each time you push a message there will be an attempt to create a stream which will result in worse performance.*
 
-```
+```ruby
 EventEmitter::Kinesis.publish(message, create_stream: true, stream_name: 'my_new_stream', stream_shard_count: 8)
 ```
 
@@ -36,27 +36,38 @@ EventEmitter::Kinesis.publish(message, create_stream: true, stream_name: 'my_new
 
 You can do it as below:
 
-```
+```ruby
 aws_client = Aws::Kinesis::Client.new
 EventEmitter::Kinesis::Stream.new(
   client: aws_client, 
-  options: { create_stream: true, stream_name: 'my_new_test_stream', stream_shard_count: 1 }
+  options: { create_stream: true, stream_name: 'my_new_test_stream_name', stream_shard_count: 1 }
 )
 ```
 
 
 #### Publishing messages to existing stream 
 
+AWS expects message to be a String or IO object. It means you can't pass Hash, you need to make it a String
+for example by calling `to_json` on a message.
+
 To publish **one** message:
 
+```ruby
+message = "Spicy chicken wings"
+
+EventEmitter::Kinesis.publish(message, stream_name: 'kfc_stream')
 ```
-EventEmitter::Kinesis.publish(message, stream_name: 'stream_name')
+
+```ruby
+message = { uuid: "a0123-99zz", price: 2.99 }.to_json
+
+EventEmitter::Kinesis.publish(message, stream_name: 'products')
 ```
 
 To publish **many** messages:
 
-```
-EventEmitter::Kinesis.publish([message1, message2], stream_name: 'stream_name')
+```ruby
+EventEmitter::Kinesis.publish([message1, message2, message3], stream_name: 'fat_stream')
 ```
 
 ### All available options
