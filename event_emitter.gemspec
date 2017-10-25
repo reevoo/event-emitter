@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["developers@reevoo.com"]
   spec.summary       = "EventEmitter"
   spec.description   = "A Ruby gem for emitting events"
-  spec.homepage      = "https://github.com/reevoo/event_emitter"
+  spec.homepage      = "https://github.com/reevoo/event-emitter"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
@@ -18,8 +18,8 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(/^(test|spec|features)\//)
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "aws-kclrb", "~> 1.0.1"
-  spec.add_dependency "aws-sdk", "~> 3.0.1"
+  spec.add_runtime_dependency "aws-kclrb", "~> 1.0", ">= 1.0.1"
+  spec.add_runtime_dependency "aws-sdk", "~> 3.0", ">= 3.0.1"
 
   spec.add_development_dependency "bundler", "~> 1.15"
   spec.add_development_dependency "rspec", "~> 3.7"

@@ -58,3 +58,13 @@ To publish **many** messages:
 ```
 EventEmitter::Kinesis.publish([message1, message2], stream_name: 'stream_name')
 ```
+
+### All available options
+
+These options may/must be passed in options hash:
+
+- `stream_name` - *required* - name of the stream where you want to publish messages or a new stream name
+- `create_stream` - *optional* - attempt to create a new stream
+- `wait_for_stream_creation` - *optional* - wait for a created stream status to become ACTIVE
+- `stream_shard_count` - *optional* - number of shards you want for a new stream
+- `partition_key` - *optional* - partition key for your message/messages to go to specific shard, defaults to "partition_key"
