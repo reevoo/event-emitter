@@ -1,7 +1,9 @@
 RSpec.describe EventEmitter::Kinesis::Stream do
   let(:stream_description) { { stream_status: "ACTIVE", shards: double(size: 1) } }
   let(:client) { double(:client, describe_stream: { stream_description: stream_description }) }
-  let(:options) { { stream_name: "my_stream", stream_shard_count: 1, wait_for_stream_creation: false } }
+  let(:options) do
+    { create_stream: true, wait_for_stream_creation: false, stream_name: "my_stream", stream_shard_count: 1 }
+  end
   let(:stream) { described_class.new(client: client, options: options) }
 
   before do

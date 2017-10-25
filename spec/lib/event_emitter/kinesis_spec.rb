@@ -14,24 +14,24 @@ RSpec.describe EventEmitter::Kinesis do
       allow(EventEmitter::Kinesis::Stream).to receive(:new).and_return(stream)
     end
 
-    it 'accepts 2 arguments - payload and options' do
+    it "accepts 2 arguments - payload and options" do
       expect(subject).to eq(true)
     end
 
-    context 'with one message as payload' do
+    context "with one message as payload" do
       let(:payload) { double(:payload) }
 
-      it 'calls put_record' do
+      it "calls put_record" do
         expect(publisher).to receive(:put_record).and_return(true)
 
         subject
       end
     end
 
-    context 'with many messages as payload' do
+    context "with many messages as payload" do
       let(:payload) { [double(:payload), double(:payload)] }
 
-      it 'calls put_records' do
+      it "calls put_records" do
         expect(publisher).to receive(:put_records).and_return(true)
 
         subject

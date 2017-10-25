@@ -15,7 +15,7 @@ module EventEmitter
         client.put_record(
           data: payload,
           stream_name: stream.name,
-          partition_key: options[:partition_key] || 'partition_key',
+          partition_key: options[:partition_key] || "partition_key",
         )
       end
 
@@ -24,7 +24,7 @@ module EventEmitter
           records: payload.map do |record|
             {
               data: record,
-              partition_key: options[:partition_key] || 'partition_key',
+              partition_key: options[:partition_key] || "partition_key",
             }
           end,
           stream_name: stream.name,

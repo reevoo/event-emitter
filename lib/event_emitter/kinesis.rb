@@ -1,6 +1,6 @@
 require_relative "./kinesis/publisher"
 require_relative "./kinesis/stream"
-require 'aws-sdk'
+require "aws-sdk"
 
 module EventEmitter
   module Kinesis
