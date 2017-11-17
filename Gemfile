@@ -2,4 +2,11 @@ source "https://rubygems.org"
 
 gem "aws-kclrb"
 gem "aws-sdk"
-gem "rspec"
+
+group :development, :test, :integration do
+  gem "climate_control"
+  gem "dotenv"
+  gem "pry"
+  gem "reevoocop"
+  gem "rspec"
+end

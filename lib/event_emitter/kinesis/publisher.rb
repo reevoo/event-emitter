@@ -1,10 +1,10 @@
 module Kinesis
   class Publisher
 
-    attr_reader :payload, :options, :client, :stream
+    attr_reader :message, :options, :client, :stream
 
-    def initialize(payload:, options:, client:, stream:)
-      @payload = payload
+    def initialize(message:, options:, client:, stream:)
+      @message = message
       @options = options
       @client = client
       @stream = stream
@@ -12,7 +12,7 @@ module Kinesis
 
     def put_record
       client.put_record(
-        data: to_s(payload),
+        data: to_s(message),
         stream_name: stream.name,
         partition_key: partition_key,
       )
@@ -20,7 +20,7 @@ module Kinesis
 
     def put_records
       client.put_records(
-        records: payload.map do |record|
+        records: message.map do |record|
           {
             data: to_s(record),
             partition_key: partition_key,
@@ -33,7 +33,7 @@ module Kinesis
     private
 
     def partition_key
-      options[:partition_key] || "partition_key"
+      options[:partition_key] || rand(1000)
     end
 
     def to_s(message)

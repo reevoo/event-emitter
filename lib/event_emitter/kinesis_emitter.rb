@@ -9,11 +9,11 @@ class KinesisEmitter < GenericEmitter
   # - ENV['AWS_SECRET_ACCESS_KEY']
   # - ENV['AWS_REGION']
 
-  def self.publish(payload:, options:)
-    @payload = payload
+  def self.publish(message:, options:)
+    @message = message
     @options = options
 
-    if payload.is_a?(Array)
+    if message.is_a?(Array)
       publisher.put_records
     else
       publisher.put_record
@@ -21,7 +21,7 @@ class KinesisEmitter < GenericEmitter
   end
 
   def self.publisher
-    Kinesis::Publisher.new(payload: @payload, options: @options, client: client, stream: stream)
+    Kinesis::Publisher.new(message: @message, options: @options, client: client, stream: stream)
   end
   private_class_method :publisher
 

@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "event_emitter/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "event_emitter"
+  spec.name          = "reevoo_event_emitter"
   spec.version       = EventEmitter::VERSION
   spec.authors       = ["Reevoo Developers"]
   spec.email         = ["developers@reevoo.com"]

@@ -13,7 +13,9 @@ class EventEmitter
                end
   end
 
-  def publish(payload:, options:)
-    backend.publish(payload: payload, options: options)
+  def publish(message:, options:)
+    return unless ENV.fetch("EVENT_EMISSION_ENABLED", "false") == "true"
+
+    backend.publish(message: message, options: options)
   end
 end

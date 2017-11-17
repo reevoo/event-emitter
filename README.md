@@ -1,5 +1,24 @@
 # EventEmitter
 
+## Include the gem in your project
+
+gem 'reevoo_event_emitter'
+
+## Enable/Disable Event emitting
+
+Once you include this gem in your project, make sure to set an environment variable:
+
+EVENT_EMISSION_ENABLED = true
+
+By default event emission is disabled so calling the publish method will have no effect. Once you set the environment variable
+to true the events will be published via your chosen backend.
+
+## Running the Specs
+
+```
+bundle exec rake
+```
+
 ## Amazon Kinesis backend
 
 To make use of Kinesis streams set ENV variables:
@@ -27,7 +46,7 @@ Otherwise each time you push a message there will be an attempt to create a stre
 
 ```ruby
 EventEmitter.new(:kinesis).publish(
-  payload: "I like sweet chilly chicken", 
+  message: "I like sweet chilly chicken",
   options: { 
     create_stream: true, 
     stream_shard_count: 8,
@@ -64,7 +83,7 @@ To publish **one** message:
 
 ```ruby
 EventEmitter.new(:kinesis).publish(
-  payload: "Spicy chicken wings", 
+  message: "Spicy chicken wings",
   options: { 
     stream_name: 'kfc_stream',
   }
@@ -75,7 +94,7 @@ To publish **many** messages:
 
 ```ruby
 EventEmitter.new(:kinesis).publish(
-  payload: ["Bulbasaur", "Pikachu", "Charmander"], 
+  message: ["Bulbasaur", "Pikachu", "Charmander"],
   options: {
     stream_name: 'pokemons_stream',
   }

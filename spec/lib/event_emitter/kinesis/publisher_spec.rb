@@ -2,14 +2,14 @@ RSpec.describe EventEmitter::Kinesis::Publisher do
   let(:client) { double(:client) }
   let(:options) { { stream_name: "my_stream", partition_key: "some_key" } }
   let(:stream) { double(:stream, name: "my_stream") }
-  let(:payload) { "blah" }
-  let(:publisher) { described_class.new(payload: payload, options: options, client: client, stream: stream) }
+  let(:message) { "blah" }
+  let(:publisher) { described_class.new(message: message, options: options, client: client, stream: stream) }
 
 
   describe "#put_record" do
     before do
       allow(client).to receive(:put_record).with(
-        data: payload,
+        data: message,
         stream_name: stream.name,
         partition_key: "some_key",
       ).and_return(true)
@@ -21,7 +21,7 @@ RSpec.describe EventEmitter::Kinesis::Publisher do
   end
 
   describe "#put_records" do
-    let(:payload) { %w[blah1 blah2] }
+    let(:message) { %w[blah1 blah2] }
 
     before do
       allow(client).to receive(:put_records).with(
