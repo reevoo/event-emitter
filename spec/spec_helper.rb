@@ -2,6 +2,7 @@ require_relative "../lib/event_emitter"
 require "pry"
 require "climate_control"
 require "dotenv"
+require "sneakers"
 
 Dotenv.load(".env.test")
 
