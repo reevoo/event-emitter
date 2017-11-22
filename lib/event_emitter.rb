@@ -1,15 +1,18 @@
 require_relative "./event_emitter/version"
-require_relative "./event_emitter/generic_emitter"
-require_relative "./event_emitter/kinesis_emitter"
+require_relative "./event_emitter/emitters/generic"
+require_relative "./event_emitter/emitters/kinesis"
+require_relative "./event_emitter/emitters/rabbitmq"
 
 class EventEmitter
 
   attr_reader :backend
 
-  def initialize(backend)
+  def initialize(backend: :rabbitmq, options: {})
     @backend = case backend
                when :kinesis
-                 KinesisEmitter
+                 Emitters::Kinesis
+               when :rabbitmq
+                 Emitters::RabbitMQ.new(options: options)
                end
   end
 

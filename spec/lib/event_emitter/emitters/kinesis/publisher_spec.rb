@@ -1,4 +1,4 @@
-RSpec.describe EventEmitter::Kinesis::Publisher do
+RSpec.describe EventEmitter::KinesisPublisher do
   let(:client) { double(:client) }
   let(:options) { { stream_name: "my_stream", partition_key: "some_key" } }
   let(:stream) { double(:stream, name: "my_stream") }

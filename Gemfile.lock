@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    amq-protocol (2.2.0)
     ast (2.3.0)
     aws-kclrb (1.0.1)
       multi_json (~> 1.0)
@@ -435,8 +436,11 @@ GEM
       aws-sigv4 (~> 1.0)
     aws-sigv2 (1.0.1)
     aws-sigv4 (1.0.2)
+    bunny (2.7.2)
+      amq-protocol (>= 2.2.0)
     climate_control (0.2.0)
     coderay (1.1.2)
+    concurrent-ruby (1.0.5)
     diff-lcs (1.3)
     dotenv (2.2.1)
     jmespath (1.3.1)
@@ -475,6 +479,15 @@ GEM
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.0, >= 1.0.1)
     ruby-progressbar (1.8.1)
+    serverengine (1.5.11)
+      sigdump (~> 0.2.2)
+    sigdump (0.2.4)
+    sneakers (2.6.0)
+      bunny (~> 2.7.0)
+      concurrent-ruby (~> 1.0)
+      serverengine (~> 1.5.11)
+      thor
+    thor (0.20.0)
     unicode-display_width (1.3.0)
 
 PLATFORMS
@@ -488,6 +501,7 @@ DEPENDENCIES
   pry
   reevoocop
   rspec
+  sneakers
 
 BUNDLED WITH
    1.16.0.pre.3
