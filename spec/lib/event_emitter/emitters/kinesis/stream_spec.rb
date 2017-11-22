@@ -1,4 +1,4 @@
-RSpec.describe EventEmitter::Kinesis::Stream do
+RSpec.describe EventEmitter::KinesisStream do
   let(:stream_description) { { stream_status: "ACTIVE", shards: double(size: 1) } }
   let(:client) { double(:client, describe_stream: { stream_description: stream_description }) }
   let(:options) do

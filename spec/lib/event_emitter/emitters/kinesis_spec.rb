@@ -1,4 +1,4 @@
-RSpec.describe KinesisEmitter do
+RSpec.describe Emitters::Kinesis do
   describe "#publish" do
     let(:publisher) { double(:publisher, put_records: true, put_record: true) }
     let(:stream) { double }
@@ -10,8 +10,8 @@ RSpec.describe KinesisEmitter do
     end
 
     before do
-      allow(Kinesis::Publisher).to receive(:new).and_return(publisher)
-      allow(Kinesis::Stream).to receive(:new).and_return(stream)
+      allow(KinesisPublisher).to receive(:new).and_return(publisher)
+      allow(KinesisStream).to receive(:new).and_return(stream)
     end
 
     it "accepts 2 arguments - message and options" do

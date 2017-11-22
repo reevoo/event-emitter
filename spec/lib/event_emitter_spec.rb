@@ -7,7 +7,7 @@ RSpec.describe EventEmitter do
       let(:backend) { :kinesis }
 
       it "accepts kinesis as backend" do
-        expect(emitter.backend).to eq(KinesisEmitter)
+        expect(emitter.backend).to eq(Emitters::Kinesis)
       end
     end
   end
@@ -19,7 +19,7 @@ RSpec.describe EventEmitter do
       let(:publish_options) { { stream_name: "my_stream" } }
 
       it "calls publish on the backend class" do
-        expect(KinesisEmitter).to receive(:publish).with(message: message, options: publish_options)
+        expect(Emitters::Kinesis).to receive(:publish).with(message: message, options: publish_options)
 
         emitter.publish(message: message, options: publish_options)
       end
@@ -27,7 +27,7 @@ RSpec.describe EventEmitter do
       context "with EVENT_EMISSION_ENABLED set to false" do
         it "does not call publish on the backend class" do
           ClimateControl.modify EVENT_EMISSION_ENABLED: "false" do
-            expect(KinesisEmitter).not_to receive(:publish)
+            expect(Emitters::Kinesis).not_to receive(:publish)
 
             emitter.publish(message: message, options: publish_options)
           end
@@ -63,7 +63,7 @@ RSpec.describe EventEmitter do
 
       it "calls publish on the backend class" do
         expect(Sneakers::Publisher).to receive(:new).with(emitter_options).once.and_return(sneakers_publisher)
-        expect_any_instance_of(RabbitMQEmitter).to receive(:publish).with(message: message, options: publish_options)
+        expect_any_instance_of(Emitters::RabbitMQ).to receive(:publish).with(message: message, options: publish_options)
 
         emitter.publish(message: message, options: publish_options)
       end
@@ -72,7 +72,7 @@ RSpec.describe EventEmitter do
         it "does not call publish on the backend class" do
           ClimateControl.modify EVENT_EMISSION_ENABLED: "false" do
             expect(Sneakers::Publisher).to receive(:new).with(emitter_options).once.and_return(sneakers_publisher)
-            expect_any_instance_of(RabbitMQEmitter).not_to receive(:publish)
+            expect_any_instance_of(Emitters::RabbitMQ).not_to receive(:publish)
 
             emitter.publish(message: message, options: publish_options)
           end

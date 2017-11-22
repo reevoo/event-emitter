@@ -1,4 +1,4 @@
-RSpec.describe RabbitMQEmitter do
+RSpec.describe Emitters::RabbitMQ do
   let(:emitter_options) do
     {
       amqp: "amqp://porta:5766",
