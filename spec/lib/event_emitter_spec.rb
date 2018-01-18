@@ -80,4 +80,78 @@ RSpec.describe EventEmitter do
       end
     end
   end
+
+  describe ".configure" do
+    it "accepts a block with config options" do
+      described_class.configure do |config|
+        config.backend = :my_favorite_backend
+        config.amqp = "some_amqp"
+        config.vhost = "some_host"
+        config.exchange = "some_exchange"
+        config.exchange_type = :topic
+        config.durable = true
+        config.ack = true
+        config.raise_errors = true
+        config.logger = "some_logger"
+      end
+
+      expect(described_class.config.backend).to eq(:my_favorite_backend)
+      expect(described_class.config.amqp).to eq("some_amqp")
+      expect(described_class.config.vhost).to eq("some_host")
+      expect(described_class.config.exchange).to eq("some_exchange")
+      expect(described_class.config.exchange_type).to eq(:topic)
+      expect(described_class.config.durable).to eq(true)
+      expect(described_class.config.ack).to eq(true)
+      expect(described_class.config.raise_errors).to eq(true)
+      expect(described_class.config.logger).to eq("some_logger")
+    end
+  end
+
+  describe ".push" do
+    context "with event emitting enabled" do
+      before do
+        allow(ENV).to receive(:fetch).with("EVENT_EMISSION_ENABLED", "false").and_return("true")
+      end
+
+      context "choosing a backend class" do
+        context "rabbitmq" do
+          before do
+            described_class.configure do |config|
+              config.backend = :rabbitmq
+            end
+          end
+
+          it "calls RabbitMQ backend" do
+            expect(Emitters::RabbitMQ).to receive(:publish).and_return(true)
+
+            described_class.push(double)
+          end
+        end
+
+        context "kinesis" do
+          before do
+            described_class.configure do |config|
+              config.backend = :kinesis
+            end
+          end
+
+          it "calls Kinesis backend" do
+            expect(Emitters::Kinesis).to receive(:publish).and_return(true)
+
+            described_class.push(double)
+          end
+        end
+      end
+    end
+
+    context "with event emitting disabled" do
+      before do
+        allow(ENV).to receive(:fetch).with("EVENT_EMISSION_ENABLED", "false").and_return("false")
+      end
+
+      it "won't emit" do
+        expect(described_class.push(double)).to eq(nil)
+      end
+    end
+  end
 end
