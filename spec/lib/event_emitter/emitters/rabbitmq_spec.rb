@@ -1,10 +1,9 @@
 RSpec.describe Emitters::RabbitMQ do
-
   describe "publish" do
     # let(:message) { double(:message) }
     let(:message) { { message: "message" } }
     let(:emitter_options) { { entity_name: "entity_name" } }
-    let(:config) { double(:config, queue_name_prefix: nil)  }
+    let(:config) { double(:config, queue_name_prefix: nil) }
     let(:expected_options) { { to_queue: "entity_name_events_queue", routing_key: "entity_name_events_queue" } }
 
     context "hello" do
@@ -20,8 +19,10 @@ RSpec.describe Emitters::RabbitMQ do
     context "when queue_name is initialize" do
       context "with a queue_name_prefix" do
         let(:message) { double(:message_1) }
-        let(:config) { double(:config_1, queue_name_prefix: "queue_name")  }
-        let(:expected_options) { { to_queue: "queue_name_entity_name_events_queue", routing_key: "queue_name_entity_name_events_queue" } }
+        let(:config) { double(:config_1, queue_name_prefix: "queue_name") }
+        let(:expected_options) do
+          { to_queue: "queue_name_entity_name_events_queue", routing_key: "queue_name_entity_name_events_queue" }
+        end
 
         it "returns a queue with queue name prefix" do
           expect(Sneakers::Publisher).to receive(:new).with(expected_options).and_return(double(publish: true))
@@ -32,7 +33,7 @@ RSpec.describe Emitters::RabbitMQ do
 
       context "without a queue_name_prefix" do
         let(:message) { double(:message_2) }
-        let(:config) { double(:config_2, queue_name_prefix: nil)  }
+        let(:config) { double(:config_2, queue_name_prefix: nil) }
         let(:expected_options) { { to_queue: "entity_name_events_queue", routing_key: "entity_name_events_queue" } }
 
         it "returns a queue without queue name prefix" do

@@ -1,9 +1,8 @@
 module Emitters
   module MessageBuilder
     require "securerandom"
-    extend self
 
-    def build(operation, backtrace, message)
+    def self.build(operation:, backtrace:, message:)
       {
         meta: {
           message_uuid: SecureRandom.uuid,
@@ -11,7 +10,7 @@ module Emitters
           message_operation: operation,
           message_backtrace: backtrace,
         },
-        message: message
+        message: message,
       }
     end
   end

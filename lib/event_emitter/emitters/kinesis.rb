@@ -13,6 +13,7 @@ module Emitters
     def self.publish(message:, options:, config:)
       @message = message
       @options = options
+      @_config = config
 
       if message.is_a?(Array)
         publisher.put_records

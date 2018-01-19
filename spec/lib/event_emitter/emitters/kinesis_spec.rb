@@ -4,9 +4,10 @@ RSpec.describe Emitters::Kinesis do
     let(:stream) { double }
     let(:message) { double }
     let(:options) { {} }
+    let(:config) { double }
 
     subject do
-      described_class.publish(message: message, options: options)
+      described_class.publish(message: message, options: options, config: config)
     end
 
     before do
