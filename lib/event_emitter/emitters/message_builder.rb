@@ -10,7 +10,7 @@ module Emitters
           message_created_at: Time.now.utc.to_s,
           message_operation: operation,
           message_backtrace: backtrace,
-        }
+        },
         message: message
       }
     end

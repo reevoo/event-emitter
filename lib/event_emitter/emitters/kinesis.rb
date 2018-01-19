@@ -10,7 +10,7 @@ module Emitters
     # - ENV['AWS_SECRET_ACCESS_KEY']
     # - ENV['AWS_REGION']
 
-    def self.publish(message:, options:)
+    def self.publish(message:, options:, config:)
       @message = message
       @options = options
 

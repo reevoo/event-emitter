@@ -23,15 +23,11 @@ class EventEmitter
     validate!(data)
 
     handle_exceptions(data) do
-      backend.publish(message: message.to_json,
-                      options: {
-                        to_queue: queue_name,
-                        routing_key: routing_key,
-                      })
+      backend.publish(message: message.to_json, options: data, config: config)
     end
   end
 
-  private_class_method :event_emission_enabled?, :backend
+  # private_class_method :event_emission_enabled?, :backend
 
   def self.event_emission_enabled?
     config.emission_enabled
@@ -49,24 +45,13 @@ class EventEmitter
   end
 
   def self.validate!(data)
-    # TODO: Params validator class would be useful.
     fail "No entity" unless data[:entity_name]
     fail "No object" unless data[:object]
     fail "No operation" unless data[:operation]
-    # TODO BLOW THE SHIT UP
   end
 
   def self.message
     Emitter::MessageBuilder.build(data)
-  end
-
-  def self.queue_name
-    queue_name = "#{data[:entity_name]}_events_queue"
-    queue_name = "#{config.queue_name_prefix}_#{queue_name}" if config.queue_name_prefix
-  end
-
-  def self.routing_key
-    queue_name
   end
 
   def self.handle_exceptions(params, &_block)

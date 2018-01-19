@@ -10,4 +10,5 @@ group :development, :test, :integration do
   gem "pry"
   gem "reevoocop"
   gem "rspec"
+  gem "timecop"
 end
