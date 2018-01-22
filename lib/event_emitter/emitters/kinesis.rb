@@ -15,26 +15,21 @@ module Emitters
       @options = options
       @_config = config
 
-      if message.is_a?(Array)
-        publisher.put_records
-      else
-        publisher.put_record
-      end
+      message.is_a?(Array) ? publisher.put_records : publisher.put_record
     end
 
     def self.publisher
       KinesisPublisher.new(message: @message, options: @options, client: client, stream: stream)
     end
-    private_class_method :publisher
 
     def self.stream
       KinesisStream.new(client: client, options: @options)
     end
-    private_class_method :stream
 
     def self.client
       Aws::Kinesis::Client.new
     end
-    private_class_method :client
+
+    private_class_method :publisher, :stream, :client
   end
 end

@@ -15,7 +15,7 @@ RSpec.describe Emitters::Kinesis do
       allow(KinesisStream).to receive(:new).and_return(stream)
     end
 
-    it "accepts 2 arguments - message and options" do
+    it "requires message, options and config as arguments" do
       expect(subject).to eq(true)
     end
 
