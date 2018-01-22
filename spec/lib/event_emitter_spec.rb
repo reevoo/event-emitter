@@ -67,7 +67,7 @@ RSpec.describe EventEmitter do
           it "fails" do
             expect do
               described_class.push(entity_name: double, object: double, operation: double, backtrace: double)
-            end.to raise_error(Emitters::Error, "Unsupported backend: unknown_backend")
+            end.to raise_error(Emitters::UnsupportedBackendError)
           end
         end
       end

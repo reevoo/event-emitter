@@ -1,5 +1,5 @@
 require_relative "./event_emitter/config"
-require_relative "./event_emitter/error"
+require_relative "./event_emitter/exceptions"
 require_relative "./event_emitter/message_builder"
 require_relative "./event_emitter/version"
 require_relative "./event_emitter/emitters/generic"
@@ -33,7 +33,7 @@ class EventEmitter
     when :rabbitmq
       Emitters::RabbitMQ
     else
-      fail Emitters::Error, "Unsupported backend: #{config.backend}"
+      fail Emitters::UnsupportedBackendError
     end
   end
 
