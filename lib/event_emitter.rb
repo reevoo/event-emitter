@@ -11,8 +11,11 @@ class EventEmitter
   def self.push(entity_name:, object:, operation:, backtrace:)
     return unless config.emission_enabled?
 
+    message_builder =
+      Emitters::MessageBuilder.build(operation: operation, backtrace: backtrace, message: object).to_json
+
     backend.publish(
-      message: Emitters::MessageBuilder.build(operation: operation, backtrace: backtrace, message: object).to_json,
+      message: message_builder,
       options: {
         entity_name: entity_name,
         object: object,

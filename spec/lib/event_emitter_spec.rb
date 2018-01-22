@@ -82,6 +82,7 @@ RSpec.describe EventEmitter do
             config.backend = :rabbitmq
             config.emission_enabled = true
           end
+          allow(Emitters::RabbitMQ).to receive(:publish).and_return(true)
         end
 
         it "calls a message builder" do
