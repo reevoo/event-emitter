@@ -1,4 +1,4 @@
-require_relative  "../exceptions"
+require_relative "../exceptions"
 
 module Emitters
   class Generic

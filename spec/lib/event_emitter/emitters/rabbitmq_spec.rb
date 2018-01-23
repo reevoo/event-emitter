@@ -16,7 +16,8 @@ RSpec.describe Emitters::RabbitMQ do
     context "queue_name" do
       context "without a queue_name_prefix" do
         it "returns a queue without queue name prefix" do
-          expect(described_class.send(:queue_name, options: emitter_options, config: config)).to eq("entity_name_events_queue")
+          expect(described_class.send(:queue_name, options: emitter_options, config: config))
+            .to eq("entity_name_events_queue")
         end
       end
 
@@ -24,7 +25,8 @@ RSpec.describe Emitters::RabbitMQ do
         let(:config) { double(:config_with_prefix, queue_name_prefix: "queue_name") }
 
         it "returns a queue with queue name prefix" do
-          expect(described_class.send(:queue_name, options: emitter_options, config: config)).to eq("queue_name_entity_name_events_queue")
+          expect(described_class.send(:queue_name, options: emitter_options, config: config))
+            .to eq("queue_name_entity_name_events_queue")
         end
       end
     end
